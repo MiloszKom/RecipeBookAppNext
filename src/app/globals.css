@@ -8,8 +8,26 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Fonts */
+  --font-main: var(--font-nunito);
+  --font-decorative: var(--font-jmadh);
+  /* Colors  */
+  --color-custom-red: #d20c0c;
+  --color-custom-orange: #ff9900;
+  --color-custom-green: #04b100;
+  --color-custom-blue: #244fe8;
+  --color-custom-light-red: #fae7e7;
+  --color-custom-light-green: #e6f7e6;
+  --color-custom-light-orange: #fff5e6;
+  --color-custom-light-blue: #d3dcfb;
+  --color-custom-dark-green: #168914;
+  --color-custom-dark-oragne: #c65f00;
+}
+
+@layer utilities {
+  .disabled {
+    @apply opacity-50 pointer-events-none;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +40,8 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+  cursor: pointer;
 }
