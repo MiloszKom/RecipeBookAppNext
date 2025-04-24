@@ -1,12 +1,12 @@
 import Link from "next/link";
-import React from "react";
+import { memo } from "react";
 
 import RecipeMetadata from "../shared/RecipeMetadata";
 import RecipeTags from "../shared/RecipeTags";
 import { getStyleByDifficulty } from "@/utils/styleHelpers";
 import CustomImage from "../shared/CustomImage";
 
-export default function RecipeCard({ recipe }) {
+function RecipeCard({ recipe }) {
   return (
     <Link
       href={`recipe/${recipe.id}`}
@@ -46,3 +46,5 @@ export default function RecipeCard({ recipe }) {
     </Link>
   );
 }
+
+export default memo(RecipeCard);
