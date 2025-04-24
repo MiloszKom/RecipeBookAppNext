@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Header from "@/components/home/Header";
 import LoadMoreBtn from "@/components/home/LoadMoreBtn";
 import RecipeCard from "@/components/home/RecipeCard";
@@ -11,9 +10,11 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { getRecipes } from "@/api/recipes";
 import RecipeCardSkeleton from "@/components/home/RecipeCardSkeleton";
 
+import useSearchStore from "@/store/searchStore";
+
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [difficulty, setDifficulty] = useState("All");
+  const { searchTerm, difficulty, setSearchTerm, setDifficulty } =
+    useSearchStore();
 
   const {
     data,
