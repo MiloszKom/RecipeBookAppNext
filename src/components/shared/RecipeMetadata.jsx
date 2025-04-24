@@ -36,15 +36,13 @@ export default function RecipeMetadata({ level, servings, cuisine, time }) {
           </div>
         </div>
       )}
-      {time > 0 && (
-        <div className="flex gap-1 items-center">
-          <img src="/time_icon.svg" alt="Cuisine Icon" />
-          <span className="text-xl">Cooking Time</span>
-          <div className="px-5 border border-custom-blue text-custom-blue rounded-[10px] ml-auto whitespace-nowrap">
-            {time} min
-          </div>
+      <div className="flex gap-1 items-center">
+        <img src="/time_icon.svg" alt="Time Icon" />
+        <span className="text-xl">Cooking Time</span>
+        <div className="px-5 border border-custom-blue text-custom-blue rounded-[10px] ml-auto whitespace-nowrap">
+          {time > 0 ? `${time} min` : "N/A"}
         </div>
-      )}
+      </div>
     </div>
   );
 }

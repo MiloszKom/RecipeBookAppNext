@@ -1,9 +1,32 @@
+"use client";
+
+import { useState } from "react";
 import Header from "@/components/home/Header";
+import LoadMoreBtn from "@/components/home/LoadMoreBtn";
 import RecipeCard from "@/components/home/RecipeCard";
 import ResponsiveDifficultyFilter from "@/components/home/ResponsiveDifficultyFilter";
 import Searchbar from "@/components/home/Searchbar";
 
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getRecipes } from "@/api/recipes";
+
 export default function Home() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [difficulty, setDifficulty] = useState("All");
+
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["recipes", { searchTerm }],
+      queryFn: getRecipes,
+      getNextPageParam: (lastPage, allPages) => {
+        const total = lastPage.total;
+        const fetched = allPages.length * 6;
+        return fetched < total ? fetched : undefined;
+      },
+    });
+
+  const recipes = data?.pages.flatMap((page) => page.recipes) || [];
+
   return (
     <div className="font-main">
       <Header />
@@ -16,25 +39,29 @@ export default function Home() {
           className="flex flex-col gap-10 lg:flex-row 
                    lg:justify-between lg:items-center"
         >
-          <Searchbar />
-          <ResponsiveDifficultyFilter />
+          <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <ResponsiveDifficultyFilter
+            difficulty={difficulty}
+            setDifficulty={setDifficulty}
+          />
         </div>
         <div
           className="grid grid-cols-1 gap-14 w-full
              sm:grid-cols-2 sm:gap-x-7
              lg:grid-cols-3"
         >
-          <RecipeCard />
-          <RecipeCard />
-          <RecipeCard />
+          {recipes.map((recipe, index) => {
+            return <RecipeCard key={`recipe-card-${index}`} recipe={recipe} />;
+          })}
         </div>
 
-        <button
-          className={`max-w-[180px] mx-auto mt-10 px-10 py-0.5 border border-black rounded-xl text-[32px] font-decorative 
-              hover:shadow-[0_0_10px_0_rgba(255,165,0,0.7)] transition-shadow duration-200`}
-        >
-          Load More
-        </button>
+        {hasNextPage && (
+          <LoadMoreBtn
+            fetchNextPage={fetchNextPage}
+            isFetchingNextPage={isFetchingNextPage}
+            isLoading={isLoading}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { Nunito_Sans, Just_Me_Again_Down_Here } from "next/font/google";
 import "./globals.css";
+import QueryProvider from "@/components/shared/QueryProvider";
 
 const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
@@ -21,8 +22,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${nunitoSans.variable} ${jmadh.variable} antialiased`}>
-        {children}
+      <body className={`${nunitoSans.variable}  ${jmadh.variable} antialiased`}>
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

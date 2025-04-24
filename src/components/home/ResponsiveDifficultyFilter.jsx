@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
 import MobileDifficultyFilter from "./filters/MobileDifficultyFilter";
 import DesktopDifficultyFilter from "./filters/DesktopDifficultyFilter";
 
-export default function ResponsiveDifficultyFilter() {
-  const [difficulty, setDifficulty] = useState("All");
-
+export default function ResponsiveDifficultyFilter({
+  difficulty,
+  setDifficulty,
+}) {
   return (
     <>
       <MobileDifficultyFilter
