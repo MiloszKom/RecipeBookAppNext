@@ -12,9 +12,13 @@ import RecipeCardSkeleton from "@/components/home/RecipeCardSkeleton";
 
 import useSearchStore from "@/store/searchStore";
 
+import useScrollPosition from "@/hooks/useScrollPosition";
+
 export default function Home() {
   const { searchTerm, difficulty, setSearchTerm, setDifficulty } =
     useSearchStore();
+
+  useScrollPosition();
 
   const {
     data,
