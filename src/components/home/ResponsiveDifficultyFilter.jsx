@@ -1,5 +1,3 @@
-"use client";
-
 import MobileDifficultyFilter from "./filters/MobileDifficultyFilter";
 import DesktopDifficultyFilter from "./filters/DesktopDifficultyFilter";
 

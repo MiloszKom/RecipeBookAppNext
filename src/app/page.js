@@ -27,6 +27,11 @@ export default function Home() {
 
   const recipes = data?.pages.flatMap((page) => page.recipes) || [];
 
+  const filteredRecipes =
+    difficulty === "All"
+      ? recipes
+      : recipes.filter((recipe) => recipe.difficulty === difficulty);
+
   return (
     <div className="font-main">
       <Header />
@@ -45,12 +50,13 @@ export default function Home() {
             setDifficulty={setDifficulty}
           />
         </div>
+
         <div
           className="grid grid-cols-1 gap-14 w-full
              sm:grid-cols-2 sm:gap-x-7
              lg:grid-cols-3"
         >
-          {recipes.map((recipe, index) => {
+          {filteredRecipes.map((recipe, index) => {
             return <RecipeCard key={`recipe-card-${index}`} recipe={recipe} />;
           })}
         </div>
