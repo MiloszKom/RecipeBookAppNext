@@ -9,21 +9,29 @@ import Searchbar from "@/components/home/Searchbar";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getRecipes } from "@/api/recipes";
+import RecipeCardSkeleton from "@/components/home/RecipeCardSkeleton";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [difficulty, setDifficulty] = useState("All");
 
-  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["recipes", { searchTerm }],
-      queryFn: getRecipes,
-      getNextPageParam: (lastPage, allPages) => {
-        const total = lastPage.total;
-        const fetched = allPages.length * 6;
-        return fetched < total ? fetched : undefined;
-      },
-    });
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["recipes", { searchTerm }],
+    queryFn: getRecipes,
+    getNextPageParam: (lastPage, allPages) => {
+      const total = lastPage.total;
+      const fetched = allPages.length * 6;
+      return fetched < total ? fetched : undefined;
+    },
+  });
 
   const recipes = data?.pages.flatMap((page) => page.recipes) || [];
 
@@ -56,9 +64,27 @@ export default function Home() {
              sm:grid-cols-2 sm:gap-x-7
              lg:grid-cols-3"
         >
-          {filteredRecipes.map((recipe, index) => {
-            return <RecipeCard key={`recipe-card-${index}`} recipe={recipe} />;
-          })}
+          {isError ? (
+            <ErrorMesasge message={error.message} />
+          ) : isLoading && !data ? (
+            Array.from({ length: 6 }).map((_, index) => (
+              <RecipeCardSkeleton key={`skeleton-${index}`} />
+            ))
+          ) : filteredRecipes.length > 0 ? (
+            <>
+              {filteredRecipes.map((recipe, index) => (
+                <RecipeCard key={`recipe-card-${index}`} recipe={recipe} />
+              ))}
+              {isFetchingNextPage &&
+                Array.from({ length: 6 }).map((_, index) => (
+                  <RecipeCardSkeleton key={`pagination-skeleton-${index}`} />
+                ))}
+            </>
+          ) : (
+            <p className="text-center text-xl font-semibold text-gray-600 mt-10 col-span-full">
+              No recipes found.
+            </p>
+          )}
         </div>
 
         {hasNextPage && (
