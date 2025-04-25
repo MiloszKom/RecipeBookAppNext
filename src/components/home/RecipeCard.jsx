@@ -1,10 +1,10 @@
 import Link from "next/link";
+import Image from "next/image";
 import { memo } from "react";
 
 import RecipeMetadata from "../shared/RecipeMetadata";
 import RecipeTags from "../shared/RecipeTags";
 import { getStyleByDifficulty } from "@/utils/styleHelpers";
-import CustomImage from "../shared/CustomImage";
 
 function RecipeCard({ recipe }) {
   return (
@@ -16,7 +16,7 @@ function RecipeCard({ recipe }) {
       className="flex flex-col border border-black rounded-2xl w-full overflow-hidden cursor-pointer"
     >
       <div className="w-full h-[220px] lg:h-[260px] border-b border-black overflow-hidden">
-        <CustomImage
+        <Image
           src={recipe.image}
           alt={recipe.name}
           width={550}
